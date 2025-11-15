@@ -1,77 +1,143 @@
-# Deployment and DevOps for MERN Applications
+# SokoSmart
 
-This assignment focuses on deploying a full MERN stack application to production, implementing CI/CD pipelines, and setting up monitoring for your application.
+A MERN-stack marketplace that connects farmers and buyers. Farmers list products, buyers browse and place orders, and both manage their dashboards.
 
-## Assignment Overview
+## Features
+- **Authentication** with JWT for farmers and buyers
+- **Farmer Dashboard** to add/manage products and view orders
+- **Buyer Dashboard** to browse products, see farmer info (name, location, phone), and place/cancel orders
+- **Products API** with farmer details populated
+- **Responsive UI** with React + Tailwind CSS
 
-You will:
-1. Prepare your MERN application for production deployment
-2. Deploy the backend to a cloud platform
-3. Deploy the frontend to a static hosting service
-4. Set up CI/CD pipelines with GitHub Actions
-5. Implement monitoring and maintenance strategies
+## Tech Stack
+- **Frontend:** React, React Router, Axios, Vite, Tailwind CSS
+- **Backend:** Node.js, Express, Mongoose, JWT, bcryptjs, dotenv, CORS
+- **Database:** MongoDB
+
+## Folder Structure
+```
+SokoSmart---Final-project/
+├─ client/                    
+│  ├─ index.html               
+│  ├─ package.json            
+│  ├─ public/
+│  └─ src/
+│     ├─ main.jsx              
+│     ├─ App.jsx               
+│     ├─ components/           
+│     ├─ pages/                
+│     ├─ services/
+│     │  └─ api.js             
+│     └─ assets/
+│        └─ images/
+│           └─ logo.png        
+│
+└─ server/                     
+   ├─ server.js               
+   ├─ package.json             
+   ├─ .env                     
+   ├─ models/
+   │  ├─ buyerModel.js
+   │  ├─ farmerModel.js
+   │  └─ productModel.js
+   ├─ routes/
+   │  ├─ productRoutes.js      
+   │  ├─ farmerRoutes.js       
+   │  └─ (orders routes)       
+   └─ middleware/
+      └─ authMiddleware.js     
+```
 
 ## Getting Started
+### Prerequisites
+- Node.js LTS (v18+ recommended)
+- MongoDB connection string (local or Atlas)
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week7-Assignment.md` file
-4. Use the provided templates and configuration files as a starting point
+### 1) Install dependencies
+```
+git clone <repo-url>
+cd SokoSmart---Final-project
 
-## Files Included
+# Server deps
+cd server && npm install
 
-- `Week7-Assignment.md`: Detailed assignment instructions
-- `.github/workflows/`: GitHub Actions workflow templates
-- `deployment/`: Deployment configuration files and scripts
-- `.env.example`: Example environment variable templates
-- `monitoring/`: Monitoring configuration examples
+# Client deps
+cd ../client && npm install
+```
 
-## Requirements
+### 2) Configure environment (server/.env)
+Create `server/.env` with:
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_long_random_secret
+```
 
-- A completed MERN stack application from previous weeks
-- Accounts on the following services:
-  - GitHub
-  - MongoDB Atlas
-  - Render, Railway, or Heroku (for backend)
-  - Vercel, Netlify, or GitHub Pages (for frontend)
-- Basic understanding of CI/CD concepts
+### 3) Run in development
+- Start the server:
+```
+cd server
+npm run dev
+```
+- Start the client (new terminal):
+```
+cd client
+npm run dev
+```
+- Open the Vite URL (usually http://localhost:5173)
 
-## Deployment Platforms
+### 4) Production
+- Client build:
+```
+cd client
+npm run build
+```
+- Server start:
+```
+cd server
+npm start
+```
 
-### Backend Deployment Options
-- **Render**: Easy to use, free tier available
-- **Railway**: Developer-friendly, generous free tier
-- **Heroku**: Well-established, extensive documentation
+## Live Demo 
+https://sokosmart.vercel.app/
 
-### Frontend Deployment Options
-- **Vercel**: Optimized for React apps, easy integration
-- **Netlify**: Great for static sites, good CI/CD
-- **GitHub Pages**: Free, integrated with GitHub
+## Scripts
+### Client (Vite)
+- `npm run dev` — start dev server
+- `npm run build` — production build
+- `npm run preview` — preview production build
+- `npm run lint` — lint code
 
-## CI/CD Pipeline
+### Server (Express)
+- `npm run dev` — start with nodemon
+- `npm start` — start with node
 
-The assignment includes templates for setting up GitHub Actions workflows:
-- `frontend-ci.yml`: Tests and builds the React application
-- `backend-ci.yml`: Tests the Express.js backend
-- `frontend-cd.yml`: Deploys the frontend to your chosen platform
-- `backend-cd.yml`: Deploys the backend to your chosen platform
+- **Products**
+  - `GET /products` — List all products (farmer: name, location, phone populated)
+  - `POST /products` — Add product (protected: farmer)
 
-## Submission
+- **Orders**
+  - `GET /orders/my-orders` — List orders for current buyer
+  - `POST /orders` — Place order `{ productId, quantity }`
+  - `DELETE /orders/:id` — Cancel pending order
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+- **Farmers**
+  - `GET /farmers` — List all farmers
+  - `GET /farmers/:id` — Get farmer by id
+  - `POST /farmers` — Create farmer
+  - `PUT /farmers/:id` — Update farmer
+  - `DELETE /farmers/:id` — Delete farmer
 
-1. Complete all deployment tasks
-2. Set up CI/CD pipelines with GitHub Actions
-3. Deploy both frontend and backend to production
-4. Document your deployment process in the README.md
-5. Include screenshots of your CI/CD pipeline in action
-6. Add URLs to your deployed applications
+Authentication uses Bearer tokens: `Authorization: Bearer <token>`.
 
-## Resources
+## Live Demo 
+https://sokosmart.vercel.app/
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [MongoDB Atlas Documentation](https://docs.atlas.mongodb.com/)
-- [Render Documentation](https://render.com/docs)
-- [Railway Documentation](https://docs.railway.app/)
-- [Vercel Documentation](https://vercel.com/docs)
-- [Netlify Documentation](https://docs.netlify.com/) 
+## UI Notes
+- Buyer product cards show farmer name, phone, location, and stock.
+## Contributing
+- Use feature branches and small focused commits
+- Run linters and ensure build passes
+
+## License
+Educational project. Add a license if you plan to open-source it.
